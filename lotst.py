@@ -3,8 +3,6 @@ import itertools
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-import joblib
-
 import streamlit as st
 
 # Load the data
@@ -62,17 +60,6 @@ y_pred_pick4 = model_pick4.predict(X_test_pick4)
 
 accuracy_pick3 = accuracy_score(y_test_pick3, y_pred_pick3)
 accuracy_pick4 = accuracy_score(y_test_pick4, y_pred_pick4)
-
-print(f"Pick 3 model accuracy: {accuracy_pick3:.2f}")
-print(f"Pick 4 model accuracy: {accuracy_pick4:.2f}")
-
-# Save the models
-joblib.dump(model_pick3, 'model_pick3.pkl')
-joblib.dump(model_pick4, 'model_pick4.pkl')
-
-# Load the saved models
-model_pick3 = joblib.load('model_pick3.pkl')
-model_pick4 = joblib.load('model_pick4.pkl')
 
 # Function to generate alternate numbers
 def generate_alternate_numbers(number, num_balls):
