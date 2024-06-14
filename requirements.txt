@@ -1,4 +1,6 @@
-pandas
-sklearn
-itertools
 streamlit
+pandas
+matplotlib
+numpy
+plotly
+scikit-learn
