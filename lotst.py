@@ -8,8 +8,8 @@ import joblib
 import streamlit as st
 import itertools
 # /Users/ashirshah/Desktop/mpdp10-attachments/pick-3_20240201-0000_20240430-0956.csv
-pick3_data = pd.read_csv('/Users/ashirshah/Desktop/mpdp10-attachments/pick-3_20240201-0000_20240430-0956.csv')
-pick4_data = pd.read_csv('/Users/ashirshah/Desktop/mpdp10-attachments/pick-4_20240201-0000_20240430-1007.csv')
+pick3_data = pd.read_csv('pick-3_20240201-0000_20240430-0956.csv')
+pick4_data = pd.read_csv('pick-4_20240201-0000_20240430-1007.csv')
 
 # Preprocessing data
 def preprocess_data(df, num_balls):
