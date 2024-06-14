@@ -6,8 +6,8 @@ from sklearn.metrics import accuracy_score
 import joblib
 
 import streamlit as st
-import itertools
-# /Users/ashirshah/Desktop/mpdp10-attachments/pick-3_20240201-0000_20240430-0956.csv
+
+# Load the data
 pick3_data = pd.read_csv('pick-3_20240201-0000_20240430-0956.csv')
 pick4_data = pd.read_csv('pick-4_20240201-0000_20240430-1007.csv')
 
@@ -70,7 +70,6 @@ print(f"Pick 4 model accuracy: {accuracy_pick4:.2f}")
 joblib.dump(model_pick3, 'model_pick3.pkl')
 joblib.dump(model_pick4, 'model_pick4.pkl')
 
-
 # Load the saved models
 model_pick3 = joblib.load('model_pick3.pkl')
 model_pick4 = joblib.load('model_pick4.pkl')
@@ -110,11 +109,16 @@ draw_time_pick3 = st.radio("Select draw time for Pick 3:", ('Day', 'Night'), key
 num_sets_pick3 = st.selectbox("Select the number of sets to generate:", [5, 10, 15], key="pick3_sets")
 
 if st.button("Run program for Pick 3", key="pick3_button"):
-    if last_draw_pick3 and len(last_draw_pick3) == 3:
-        predicted_pick3 = predict_and_rank(model_pick3, last_draw_pick3, 3, num_sets_pick3)
-        st.subheader("Predicted Pick 3 sets:")
-        for i, pred in enumerate(predicted_pick3, 1):
-            st.write(f"{i}: {pred}")
+    if last_draw_pick3:
+        if len(last_draw_pick3) == 3 and last_draw_pick3.isdigit() and all(int(digit) >= 0 for digit in last_draw_pick3):
+            predicted_pick3 = predict_and_rank(model_pick3, last_draw_pick3, 3, num_sets_pick3)
+            st.subheader("Predicted Pick 3 sets:")
+            for i, pred in enumerate(predicted_pick3, 1):
+                st.write(f"{i}: {pred}")
+        elif len(last_draw_pick3) != 3:
+            st.error("Please enter exactly 3 digits for Pick 3.")
+        elif not last_draw_pick3.isdigit() or any(int(digit) < 0 for digit in last_draw_pick3):
+            st.error("Please enter valid digits (0-9) for Pick 3.")
     else:
         st.error("Please enter a valid 3-digit last draw for Pick 3.")
 
@@ -125,10 +129,15 @@ draw_time_pick4 = st.radio("Select draw time for Pick 4:", ('Day', 'Night'), key
 num_sets_pick4 = st.selectbox("Select the number of sets to generate:", [5, 10, 15], key="pick4_sets")
 
 if st.button("Run program for Pick 4", key="pick4_button"):
-    if last_draw_pick4 and len(last_draw_pick4) == 4:
-        predicted_pick4 = predict_and_rank(model_pick4, last_draw_pick4, 4, num_sets_pick4)
-        st.subheader("Predicted Pick 4 sets:")
-        for i, pred in enumerate(predicted_pick4, 1):
-            st.write(f"{i}: {pred}")
+    if last_draw_pick4:
+        if len(last_draw_pick4) == 4 and last_draw_pick4.isdigit() and all(int(digit) >= 0 for digit in last_draw_pick4):
+            predicted_pick4 = predict_and_rank(model_pick4, last_draw_pick4, 4, num_sets_pick4)
+            st.subheader("Predicted Pick 4 sets:")
+            for i, pred in enumerate(predicted_pick4, 1):
+                st.write(f"{i}: {pred}")
+        elif len(last_draw_pick4) != 4:
+            st.error("Please enter exactly 4 digits for Pick 4.")
+        elif not last_draw_pick4.isdigit() or any(int(digit) < 0 for digit in last_draw_pick4):
+            st.error("Please enter valid digits (0-9) for Pick 4.")
     else:
         st.error("Please enter a valid 4-digit last draw for Pick 4.")
